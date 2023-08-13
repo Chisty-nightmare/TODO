@@ -3,7 +3,13 @@ const mongoose=require("mongoose")
 
 //get all todo
 const getTodos = async (req,res) => {
-        const toDo = await Todo.find({})
+        
+        let page= Number(req.query.page) || 1;
+        let limit=Number(req.query.limit) || 1;
+
+        let skip=(page-1)*(limit)
+        const  toDo = await Todo.find({}).skip(skip).limit(limit)
+
        return res.status(200).json(toDo)
 }
 
