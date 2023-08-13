@@ -60,9 +60,32 @@ const updateTodo = async (req,res) => {
     return res.status(200).json(req.body)
 
 }
+const  searchByField = async (req,res) => {
+
+      let data = await Todo.find({
+        "$or":
+        [
+          {
+            title:{$regex:req.params.key}
+          },
+          {
+            task:{$regex:req.params.key}
+          },
+          {
+            date:{$regex:req.params.key}
+          }
+
+        ]
+
+      })
+      return res.json(data)
+}
+
+
 module.exports = {
     createTodo,
     getTodos,
     getTodo,
-    updateTodo
+    updateTodo,
+    searchByField
 }
